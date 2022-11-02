@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% block title %}My Django template{% endblock %}</title>
+	<link rel="stylesheet" href="{% static 'design/docs/assets/css/bootstrap.css' %}">
+    
+    <link rel="stylesheet" href="{% static 'design/docs/assets/vendors/chartjs/Chart.min.css' %}">
+
+	<link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'design/docs/assets/vendors/perfect-scrollbar/perfect-scrollbar.css' %}">
+    <link rel="stylesheet" href="{% static 'design/docs/assets/css/app.css' %}">
+    <link rel="shortcut icon" href="{% static 'design/docs/assets/images/favicon.svg' %}" type="image/x-icon">
+</head>
+<body>
+	<div id="app">
+		{% include './common/sidebar.html' %}
+		<div id="main">
+			{% include './common/navbar.html' %}
+			{% block content %}{% endblock %}
+		</div>
+		<footer>
+				<div class="footer clearfix mb-0 text-muted">
+					<div class="float-left">
+						<p>2020 &copy; FSG_Collection</p>
+					</div>
+					<div class="float-right">
+					<p>L3's project (2019-2020)  developped  with <span class='text-danger'><i data-feather="heart"></i></span> by Laurenzio Sambany</p>
+					</div>
+				</div>
+		</footer>
+	</div>
+	
+    <script src="{% static 'design/docs/assets/js/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'design/docs/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'design/docs/assets/js/app.js'%}"></script>
+    
+    <script src="{% static 'design/docs/assets/vendors/chartjs/Chart.min.js' %}"></script>
+    <script src="{% static 'design/docs/assets/vendors/apexcharts/apexcharts.min.js' %}"></script>
+    <script src="{% static 'design/docs/assets/js/pages/dashboard.js' %}"></script>
+
+    <script src="{% static 'design/docs/assets/js/main.js' %}"></script>
+    
+	<script src="{% static 'design/docs/assets/vendors/simple-datatables/simple-datatables.js' %}"></script>
+	<script src="{% static 'design/docs/assets/js/vendors.js' %}"></script>
+</body>
+		
+</html>

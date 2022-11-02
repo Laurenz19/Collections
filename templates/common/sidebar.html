@@ -1,0 +1,76 @@
+<!-- Sidebar -->
+{% load static %}
+<div id="sidebar" class='active'>
+            <div class="sidebar-wrapper active">
+    <div class="sidebar-header">
+        <img src="{% static 'design/docs/assets/images/logo.svg' %}" alt="" srcset="">
+    </div>
+    <div class="sidebar-menu">
+        <ul class="menu">
+            
+            
+                <li class='sidebar-title'>Main Menu</li>
+            
+            
+            
+                <li class="sidebar-item active ">
+                    <a href="{% url 'home' %}" class='sidebar-link'>
+                        <i data-feather="home" width="20"></i> 
+                        <span>Dashboard</span>
+                    </a>
+                    
+                </li>
+
+            
+            
+            
+                <li class="sidebar-item  has-sub">
+                    <a href="{% url 'collections' %}" class='sidebar-link'>
+                        <i data-feather="layers" width="20"></i> 
+                        <span>Collections</span>
+                    </a>
+                    
+                    <ul class="submenu ">
+                        
+                        <li>
+                            <a href="{% url 'film' %}">Films</a>
+                        </li>
+                        
+                        <li>
+                            <a href="{% url 'game' %}">Game</a>
+                        </li>
+                        
+                        <li>
+                            <a href="{% url 'serie' %}">Serie</a>
+                        </li>
+                        
+                    </ul>
+                    
+                </li>
+
+            
+            
+            
+                <li class="sidebar-item  has-sub">
+                    <a href="{% url 'new_collection' %}" class='sidebar-link'>
+                        <i data-feather="briefcase" width="20"></i> 
+                        <span>Film/Game/Serie</span>
+                    </a>
+                    <ul class="submenu ">
+                        
+                        <li>
+                            <a href="{% url 'collections' %}">All</a>
+                        </li>
+                        
+                        <li>
+                            <a href="{% url 'new_collection' %}">New</a>
+                        </li>
+                        
+                    </ul>
+                </li>
+         
+        </ul>
+    </div>
+  </div>
+</div>
+<!-- End Sidebar -->

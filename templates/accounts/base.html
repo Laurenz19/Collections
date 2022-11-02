@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Django template{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'design/docs/assets/css/bootstrap.css' %}">
+    <link rel="shortcut icon" href="{% static 'design/docs/assets/images/favicon.svg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'design/docs/assets/css/app.css' %}">
+</head>
+<body>
+    <div id="auth">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 col-sm-12 mx-auto">
+                    <div class="card pt-4">
+                        <div class="card-body">
+                            {% block content %}{% endblock %}
+                            <div class="divider">
+                                <div class="divider-text">--000--</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'design/docs/assets/js/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'design/docs/assets/js/app.js' %}"></script>
+    
+    <script src="{% static 'design/docs/assets/js/main.js' %}"></script>
+    
+    
+</body>
+</html>

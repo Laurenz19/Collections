@@ -1,0 +1,49 @@
+{% extends './base.html' %}
+
+{% load static %}
+{% block title %}Register | FSG{% endblock %}
+{% block content %}
+    <div class="text-center mb-5">
+       <img src="{% static 'design/docs/assets/images/favicon.svg' %}" height="48" class='mb-4'>
+       <h3>Sign Up</h3>
+      <p>Please fill the form to register.</p>
+    </div>                 
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6 col-12">
+                <div class="form-group">
+                    <label for="first-name-column">{{form.username.label}}</label>
+                    {{form.username}}
+                </div>
+            </div>
+             <div class="col-md-6 col-12">
+                <div class="form-group">
+                    <label for="first-name-column">{{form.email.label}}</label>
+                    {{form.email}} 
+                </div>
+            </div>
+             <div class="col-md-6 col-12">
+                <div class="form-group">
+                    <label for="first-name-column">{{form.password1.label}}</label>
+                    {{form.password1}} 
+                </div>
+            </div>
+             <div class="col-md-6 col-12">
+                <div class="form-group">
+                    <label for="first-name-column">{{form.password2.label}}</label>
+                    {{form.password2}}
+                </div>
+            </div>
+        </div>
+        {{form.errors}}
+         <a href="{% url 'login' %}">Have an account? Login</a>
+          <div class="clearfix">
+             <input type="submit" value="Register Account" name="Create User" class="btn btn-primary float-right">
+          </div>
+       
+            {% for message in messages %}
+                 <p id="messages">{{message}}</p>
+            {% endfor %}
+    </form>
+{% endblock %}

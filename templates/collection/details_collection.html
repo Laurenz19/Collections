@@ -1,0 +1,59 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block title %}{{collection.Type}} | FSG{% endblock %}
+{% block content %}
+   <div class="main-content container-fluid">
+    <div class="page-title">
+        <div class="row">
+             <div class="col-12 col-md-6 mb-4 order-md-1 order-last">
+                <h3>{{collection.Type}}</h3>
+                <p class="text-subtitle text-muted">this is a page about {{collection.name}}</p>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class='breadcrumb-header'>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">about {{collection.name}}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <section id="content-types">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <h4 class="card-title">{{collection.name}}</h4>
+                            <p class="card-text">
+                                Gummies bonbon apple pie fruitcake icing biscuit apple pie jelly-o sweet roll. Toffee
+                                sugar plum sugar plum jelly-o jujubes bonbon dessert carrot cake.
+                            </p>
+                        </div>
+                        <img class="img-fluid" src=" {{collection.photo.url}}" alt="Card image cap">
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <span>make public</span>
+                        {{collection.datepublish}}
+                    </div>
+                </div>
+             </div> 
+              <div class="col-md-6">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <h4 class="card-title">{{collection.producer}}</h4>
+                            <p class="card-text">
+                                {{collection.description}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+             </div>       
+         </div>
+     </section>
+    </div>
+      
+   
+{% endblock %} 

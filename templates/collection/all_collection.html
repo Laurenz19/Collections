@@ -1,0 +1,61 @@
+{% extends '../base.html' %}
+
+{% block title %}Collection{% endblock %}
+{% block content %}
+<div class="main-content container-fluid">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Films/Games/Series</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class='breadcrumb-header'>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">all collections</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <section class="section">
+        <div class="card">
+            <div class="card-header">
+                Films/Games/Series
+            </div>
+            <div class="card-body">
+                <table class='table table-striped' id="table1">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Collection</th>
+                            <th>Producer/Studio</th>
+                            <th>Date pubish</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         {% if collections.count == 0 %}
+                            <tr>Empty data!</tr>
+                         {% else %}
+                             {% for collection in collections %}
+                                <tr>
+                                    <td class="text-bold-500">{{collection.name}}</td>
+                                    <td>{{collection.Type}}</td>
+                                    <td class="text-bold-500">{{collection.producer}}</td>
+                                    <td>{{collection.datepublish}}</td>
+                                    <td>
+                                        <a class="badge bg-info" href="{{collection.getUrl_forDetails}}">Detail</a>
+                                        <a class="badge bg-success" href="{{collection.getUrl_forUpdate}}">Update</a>
+                                        <a class="badge bg-warning" href="{{collection.getUrl_forDelete}}">Delete</a>
+                                </tr>
+                              {% endfor %}
+                         {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+</div>
+{% endblock %} 

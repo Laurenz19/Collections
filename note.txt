@@ -1,0 +1,466 @@
+base_dir: récupère le path du projet
+
+to work on the variable env
+> workon variablename
+
+To create a django  application
+> django-admin startproject mytestsite
+
+To run the server
+> py manage.py runserver
+
+To migrate
+> py manage.py migrate
+
+To create a super user that has access into th admin:
+> py manage.py createsuperuser
+
+To create an application
+> py manage.py startapp profiles
+
+Inside models.py
+****************
+Now we're gonna create our class inside models.py
+
+from django.db import models
+
+# Create your models here.
+class Product(models.Model):
+    title       = models.TextField() 
+    description = models.TextField()
+    price       = models.TextField()
+
+=> like this
+after that we need to declare it in installed_app inside the setting.py
+
+# Application definition
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    # third party
+    # own
+    'products',
+]
+=> Done
+Never forget to make migration by using the command given below
+> py manage.py makemigrations
+(my_django_environment) H:\Etude\doc L3\django_project\myDjango_app\new_app>py manage.py makemigrations
+H:\Etude\doc L3\django_project\myDjango_app\new_app
+Migrations for 'products':
+  products\migrations\0001_initial.py
+    - Create model Product
+
+Following that run the command below
+> py manage.py migrate
+(my_django_environment) H:\Etude\doc L3\django_project\myDjango_app\new_app>py manage.py migrate
+H:\Etude\doc L3\django_project\myDjango_app\new_app
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, products, sessions
+Running migrations:
+  Applying products.0001_initial... OK
+
+The next step is to link our model inside  admin.py
+from django.contrib import admin
+from .models import Product
+
+# Register your models here.
+admin.site.register(Product)
+
+=> Done
+
+Create product Object in the python Shell
+> python manage.py shell
+(my_django_environment) H:\Etude\doc L3\django_project\myDjango_app\new_app>py manage.py shell
+H:\Etude\doc L3\django_project\myDjango_app\new_app
+Python 3.9.0 (tags/v3.9.0:9cf6752, Oct  5 2020, 15:34:40) [MSC v.1927 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from products.models import Product
+>>> Product.objects.all()
+<QuerySet [<Product: Product object (1)>]>
+>>> Product.objects.create(title="New product", description="product number 2", price='2000', summary="always cool")
+<Product: Product object (2)>
+>>> Product.objects.create(title="New product 3", description="product number 3", price='9000', summary="always cool")
+<Product: Product object (3)>
+>>> Product.objects.all()
+<QuerySet [<Product: Product object (1)>, <Product: Product object (2)>, <Product: Product object (3)>]>
+>>>exit()
+
+New Model Fields:
+for that check the url given
+file:///C:/Users/User/AppData/Local/Temp/Rar$EXa0.123/ref/models/fields.html#django.db.models.Field
+
+from django.db import models
+
+# Create your models here.
+class Product(models.Model):
+    title = models.CharField(max_length=120) # max_length =required
+    description = models.TextField(blank=True, null=True)
+    price = models.DecimalField(decimal_places=2, max_digits=10000)
+    summary = models.TextField(blank=False, null=False)
+    featured = models.BooleanField()
+
+To check the migration: migrations>0001_ or 2 or 3
+
+Default Homepage to Custom Homepage:
+Create a new app called pages
+> py manage.py startapp pages
+
+and add it in INSTALLED_APPS 
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    # third party
+    # own
+    'products',
+    'pages',
+]
+=> Done
+
+Inside pages>views.py:
+from django.http import HttpResponse
+from django.shortcuts import render
+
+# Create your views here.
+def home_view(*args, **kwargs):
+    return HttpResponse("<h1>Hello everybody</h1>")
+
+=> Done
+after reloading the page, it doesn't work
+run this url: http://127.0.0.1:8000/abc
+Page not found (404)
+Request Method:	GET
+Request URL:	http://127.0.0.1:8000/abc
+Using the URLconf defined in new_app.urls, Django tried these URL patterns, in this order:
+
+admin/
+The current path, abc, didn't match any of these.
+
+You're seeing this error because you have DEBUG = True in your Django settings file.
+Change that to False, and Django will display a standard 404 page.
+
+We can see that our url is not defined in new_app.urls
+Therefore, lt's fix it now:
+
+In new_app>setting.py we can found this:
+ROOT_URLCONF = 'new_app.urls'
+that means, inside the file new_app.urls we configure all about the url:
+
+new_app.urls:
+"""new_app URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/3.1/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+]
+
+=> after configure it our views.py looks like this:
+"""new_app URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/3.1/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path
+
+from pages.views import home_view #Add this
+
+urlpatterns = [
+    path('', home_view, name='home'), #and this line
+    path('admin/', admin.site.urls),
+]
+=> Done
+
+
+URL Routing and Requests:
+We need to create a templates folder which holds our html file
+
+After creating that, configure the setting.py
+and add this : 'DIRS': [BASE_DIR / 'templates'],
+And I got something like this
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+and now in my page>views
+
+from django.http import HttpResponse
+from django.shortcuts import render
+
+# Create your views here.
+def home_view(request, *args, **kwargs):
+    print(args, kwargs)
+    print(request)
+    #return HttpResponse("<h1>Hello everybody</h1>")
+    return render(request, "products/home.html", {})
+
+def contact_view(request, *args, **kwargs):
+    #return HttpResponse("<h1>Contact Page</h1>")
+    return render(request, "products/contact.html", {})
+
+def about_view(request, *args, **kwargs):
+    #return HttpResponse("<h1>About Page</h1>")
+    return render(request, "products/about.html", {})
+
+=> Done 
+
+Django Templating Engine Basics:
+
+request.user : return the user name
+request.user.is_authenticated : return true if the user is is_authenticated
+
+Create a base.html (our template) and it may be look like this:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coding for Entrepreneurs is doing Try Django</title>
+</head>
+<body>
+    {% block content %}
+        <!-- Our code -->
+    {% endblock %}
+</body>
+</html>
+
+to use this base.html, we need to extend it inside the file which herite it
+in my case, this is how I extend the base.html: {% extends '../base.html' %}
+
+Now, our home.html:
+{% extends '../base.html' %}
+
+{% block content %}
+    <h1>Hello World</h1>
+    <p>This is a Home page</p>
+{% endblock %}
+
+include Template Tag:
+{% include 'navbar.html' %}
+in my case:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coding for Entrepreneurs is doing Try Django</title>
+</head>
+<body>
+    {% include "./common/navbar.html" %}
+    {% block content %}
+        <!-- Our code -->
+    {% endblock %}
+</body>
+</html>
+
+Using condition in a template:
+
+**********************
+{% for row in List %}
+    <li>{{row}}</li>
+{% endfor %}
+**********************
+
+**********************
+{% if condition %}
+
+{% endif %}
+**********************
+
+*****************************
+{% if condition %}
+        
+{% elif condition %}
+
+{% else %}     
+
+{% endif %}
+*****************************
+
+Template Tag:
+For more information check the urls given:
+file:///C:/Users/User/AppData/Local/Temp/Rar$EXa0.123/topics/templates.html#filters
+ 
+file:///C:/Users/User/AppData/Local/Temp/Rar$EXa0.123/ref/templates/language.html
+
+Examples:
+{{Title|capfirst}}
+{{Title|upper}}
+
+when we pass an html:
+{{html_|striptags|slugify}}
+{{html_|safe|lower}}
+
+Render Data from the Database with a model:
+product>views.py:
+from django.shortcuts import render
+from .models import Product
+
+# Create your views here.
+def product_detail_view(request):
+    produit= Product.objects.get(id=1)
+    return render(request, "product/detail.html", {
+        'title': produit.title,
+        'description': produit.description
+    })
+
+and now create the product folder and detail.html
+{% extends '../base.html' %}
+
+{% block content %}
+    {{title}}, {{description}}
+{% endblock %}
+
+=> Done
+Never forget to add the url (new_app>urls.py)
+
+from django.contrib import admin
+from django.urls import path
+
+from pages.views import home_view, contact_view, about_view
+from products.views import product_detail_view
+
+urlpatterns = [
+    path('', home_view, name='home'),
+    path('about/', about_view, name='about'),
+    path('contact/', contact_view),
+    path('product/detail', product_detail_view),
+    path('admin/', admin.site.urls),
+]
+=> Done
+
+Create a form:
+**************
+Now create a python file named forms
+product>forms:
+
+from django import forms
+from .models import Product
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = [
+            'title',
+            'description',
+            'price',
+            'summary'
+        ] 
+
+and now, let's use it inside the views:
+from django.shortcuts import render
+from .models import Product
+from .forms import ProductForm 
+# Create your views here.
+
+"""
+In this file we're gonna make a CRUD of the Product model
+
+"""
+def product_create_view(request):
+    form = ProductForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        form = ProductForm()
+
+    return render(request, "product/create.html", {
+       'form': form
+    })
+
+def product_detail_view(request):
+    produit = Product.objects.get(id=1)
+    return render(request, "product/detail.html", {
+       'produit': produit
+    })
+
+=>Done
+
+Following that, let's show the form in our template:
+
+{% extends '../base.html' %}
+
+{% block content %}
+  <form method='POST'> {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Save">
+  </form>
+{% endblock %}
+=> Done
+NB: import the url in ulrs.py
+from django.contrib import admin
+from django.urls import path
+
+from pages.views import home_view, contact_view, about_view
+from products.views import product_detail_view, product_create_view
+
+urlpatterns = [
+    path('', home_view, name='home'),
+    path('about/', about_view, name='about'),
+    path('contact/', contact_view),
+    path('product/detail', product_detail_view),
+    path('product/create', product_create_view),
+    path('admin/', admin.site.urls),
+]
+
+=> Done
+
+2:14:26
+Raw HTML Form:
+**************
+
+
+
+
+
+
+
+
